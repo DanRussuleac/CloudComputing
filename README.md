@@ -7,4 +7,6 @@ The application is based on the application from the getting started tutorial at
 =======
 # CloudComputing
 Week2Lab
+
+This is my change in my docker file, I will push this.
 >>>>>>> 84b42a7f53afc2c5371daf88d44e86be6cd54ce8
