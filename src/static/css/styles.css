@@ -1,7 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
 body {
-    background-color: #f4f4f4;
+    background: linear-gradient(120deg, #f4f4f4, #e0e0e0);
     margin-top: 50px;
-    font-family: 'Lato';
+    font-family: 'Roboto', sans-serif;
+}
+
+.title-container {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    margin: 20px auto;
 }
 
 .item {
@@ -16,10 +26,13 @@ body {
 
 .item:hover {
     box-shadow: 0 0 1em #aaa;
+    transform: scale(1.02);
 }
 
 .item.completed {
     text-decoration: line-through;
+    color: #888;
+    background-color: #f0f0f0;
 }
 
 .toggles {
@@ -34,6 +47,53 @@ body {
     padding-left: 0;
 }
 
+button {
+    transition: background-color .3s ease, color .3s ease, border .3s ease;
+}
+
+button:hover {
+    background-color: #333;
+    color: #fff;
+}
+
 button:focus {
     border: 1px solid #333;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
+
+/* New styles below */
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    border-bottom: 3px solid #444;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header p {
+    margin: 5px 0 0;
+    font-size: 1.1rem;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    border-top: 3px solid #444;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
