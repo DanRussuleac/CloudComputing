@@ -2,32 +2,40 @@
 
 body {
     background-color: #f4f4f4;
-    background: linear-gradient(120deg, #f4f4f4, #e0e0e0);
+    background: linear-gradient(120deg, #d3d3d3, #f0f0f0); /* Adjusted to lighter shades of grey */
     margin-top: 50px;
-    font-family: 'Lato';
     font-family: 'Roboto', sans-serif;
 }
 
 .title-container {
     text-align: center;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9); /* Made it a bit more opaque */
     border-radius: 10px;
     margin: 20px auto;
 }
 
 .item {
+    padding: 10px 15px;
+    background-color: #f0f0f0; /* Light grey background */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s ease;
+}
 
 .item:hover {
-    box-shadow: 0 0 1em #aaa;
-    transform: scale(1.02);
-    }
+    background-color: #e5e5e5; /* Slightly darker on hover */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15); /* Increased shadow on hover for depth */
 }
 
 .item.completed {
     text-decoration: line-through;
-    color: #888;
-    background-color: #f0f0f0;
+    color: #555; /* Darkened text for better contrast */
+    background-color: #d3d3d3; /* Darker background for completed items */
 }
 
 .toggles {
@@ -39,25 +47,24 @@ button {
 }
 
 button:hover {
-    background-color: #333;
+    background-color: #4a4a4a; /* Dark grey for contrast */
     color: #fff;
 }
 
 button:focus {
-    border: 1px solid #333;
-
+    border: 1px solid #4a4a4a; /* Dark grey border */
     outline: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* New styles below */
+/* Updated styles for color contrast */
 
 header {
     text-align: center;
     padding: 20px;
-    background-color: #333;
-    color: white;
-    border-bottom: 3px solid #444;
+    background-color: #4a4a4a; /* Dark grey */
+    color: #f0f0f0; /* Light grey */
+    border-bottom: 3px solid #2e2e2e; /* Darker shade for contrast */
     margin-bottom: 20px;
 }
 
@@ -73,9 +80,9 @@ header p {
 footer {
     text-align: center;
     padding: 20px;
-    background-color: #333;
-    color: white;
-    border-top: 3px solid #444;
+    background-color: #4a4a4a; /* Dark grey */
+    color: #f0f0f0; /* Light grey */
+    border-top: 3px solid #2e2e2e; /* Darker shade for contrast */
     position: fixed;
     width: 100%;
     bottom: 0;

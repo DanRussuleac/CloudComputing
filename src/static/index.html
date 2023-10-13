@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <html lang="en">
 
 <head>
@@ -8,18 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0" />
     <title>Todo App</title>
 </head>
+
 <body>
-    <header>
-        <h1>Welcome to Todo App</h1>
-        <p>Manage your tasks efficiently</p>
+    <header class="app-header">
+        <h1 class="header-title">Welcome to Todo App</h1>
+        <p class="header-subtitle">Manage your tasks efficiently</p>
     </header>
 
-    <div class="title-container">
-        <h1>Todo App</h1>
-    </div>
-    <div id="root"></div>
+    <main class="app-content">
+        <div class="title-container">
+            <h2 class="content-title">Your Tasks</h2>
+        </div>
+        <div id="root"></div>
+    </main>
 
-    <footer>
+    <footer class="app-footer">
         <p>&copy; 2023 Todo App. All Rights Reserved.</p>
     </footer>
 
@@ -29,4 +31,5 @@
     <script src="js/babel.min.js"></script>
     <script type="text/babel" src="js/app.js"></script>
 </body>
+
 </html>
