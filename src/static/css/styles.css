@@ -1,157 +1,86 @@
-/* Reset some default browser styles */
-body, h1, h2, p, ul, li {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+body {
+    background-color: #f4f4f4;
+    background: linear-gradient(120deg, #f4f4f4, #e0e0e0);
+    margin-top: 50px;
+    font-family: 'Lato';
+    font-family: 'Roboto', sans-serif;
 }
 
-/* Navbar styles */
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 50px;
-    background: linear-gradient(90deg, #020b30, #0e490d, #020b30); /* Darker at edges, lighter in center */
-    color: #00ff00; /* Neon green text */
+.title-container {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    margin: 20px auto;
 }
 
+.item {
 
-nav .logo img {
-    max-height: 50px;
-}
-
-nav .menu {
-    list-style-type: none;
-    display: flex;
-    gap: 20px;
-}
-
-nav .menu li a {
-    color: #00ff00; /* Neon green text */
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-nav .menu li a:hover {
-    color: #ff4500; /* Neon orange on hover */
-}
-
-nav .signin button {
-    background-color: #ff4500; /* Neon orange button */
-    color: #1a1a1a; /* Dark text on button */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-nav .signin button:hover {
-    background-color: #00ff00; /* Neon green on hover */
-}
-
-/* Hero section styles */
-.hero {
-        position: relative;
-        overflow: hidden; /* Hide the slides that are off-screen */
-}
-
-.hero-slider {
-    display: flex; /* Place all slides in a row */
-    width: calc(100% * 2); /* Assuming 2 slides; adjust for more slides */
-    transition: all 0.5s; /* Smooth transition effect */
-}
-
-.slide {
-    width: 100vw; /* viewport width */
-    height: 50vh; /* viewport height */
-    background-size: cover;
-    background-position: center;
-}
-
-.hero-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.hero-content h1 {
-    font-size: 3em;
-    color: #00ff00; /* Neon green headline */
-    margin-bottom: 20px;
-}
-
-.hero-content p {
-    font-size: 1.2em;
-    color: #ffffff; /* White subtext */
-    margin-bottom: 30px;
-}
-
-.hero-content button {
-    background-color: #00ff00; /* Neon green button */
-    color: #1a1a1a; /* Dark text on button */
-    border: none;
-    padding: 15px 30px;
-    border-radius: 5px;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.hero-content button:hover {
-    background-color: #ff4500; /* Neon orange on hover */
-}
-
-/* Features section styles */
-.features {
-    display: flex;
-    justify-content: space-around;
-    padding: 50px 0;
-    background-color: #1a1a1a; /* Dark background */
-}
-
-.feature-item img {
-    max-width: 100px;
-    margin-bottom: 20px;
-}
-
-.feature-item h2 {
-    font-size: 2em;
-    color: #00ff00; /* Neon green text */
-    margin-bottom: 10px;
-}
-
-.feature-item p {
-    color: #ffffff; /* White text */
-}
-
-/* Footer styles */
-footer {
-    background: linear-gradient(90deg, #020b30, #0e490d, #020b30); /* Darker at edges, lighter in center */
-    color: #00ff00; /* Neon green text */
-    padding: 20px 50px;
-    display: flex;
-    justify-content: space-between;
-}
-
-footer a {
-    color: #00ff00; /* Neon green links */
-    text-decoration: none;
-    margin-right: 20px;
-    transition: color 0.3s ease;
-}
-
-footer a:hover {
-    color: #ff4500; /* Neon orange on hover */
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-    nav, .features, footer {
-        flex-direction: column;
-        text-align: center;
+.item:hover {
+    box-shadow: 0 0 1em #aaa;
+    transform: scale(1.02);
     }
 }
 
+.item.completed {
+    text-decoration: line-through;
+    color: #888;
+    background-color: #f0f0f0;
+}
 
+.toggles {
+    padding-left: 0;
+}
+
+button {
+    transition: background-color .3s ease, color .3s ease, border .3s ease;
+}
+
+button:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+button:focus {
+    border: 1px solid #333;
+
+    outline: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* New styles below */
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    border-bottom: 3px solid #444;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header p {
+    margin: 5px 0 0;
+    font-size: 1.1rem;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    border-top: 3px solid #444;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
