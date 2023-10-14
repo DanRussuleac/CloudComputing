@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
 
 body {
-    background-color: #f4f4f4;
-    background: linear-gradient(120deg, #d3d3d3, #f0f0f0); /* Adjusted to lighter shades of grey */
+    background: linear-gradient(120deg, #f4f4f4, #e0e0e0);
     margin-top: 50px;
     font-family: 'Roboto', sans-serif;
 }
@@ -10,35 +9,41 @@ body {
 .title-container {
     text-align: center;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Made it a bit more opaque */
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     margin: 20px auto;
 }
 
 .item {
-    padding: 10px 15px;
-    background-color: #f0f0f0; /* Light grey background */
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: transparent;
     border-radius: 5px;
-    margin-bottom: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 0 1em #ccc;
+    transition: all .2s ease-in-out;
 }
 
 .item:hover {
-    background-color: #e5e5e5; /* Slightly darker on hover */
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15); /* Increased shadow on hover for depth */
+    box-shadow: 0 0 1em #aaa;
+    transform: scale(1.02);
 }
 
 .item.completed {
     text-decoration: line-through;
-    color: #555; /* Darkened text for better contrast */
-    background-color: #d3d3d3; /* Darker background for completed items */
+    color: #888;
+    background-color: #f0f0f0;
 }
 
 .toggles {
+    color: black;
+}
+
+.name {
+    padding-top: 3px;
+}
+
+.remove {
     padding-left: 0;
 }
 
@@ -47,24 +52,24 @@ button {
 }
 
 button:hover {
-    background-color: #4a4a4a; /* Dark grey for contrast */
+    background-color: #333;
     color: #fff;
 }
 
 button:focus {
-    border: 1px solid #4a4a4a; /* Dark grey border */
+    border: 1px solid #333;
     outline: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-/* Updated styles for color contrast */
+/* New styles below */
 
 header {
     text-align: center;
     padding: 20px;
-    background-color: #4a4a4a; /* Dark grey */
-    color: #f0f0f0; /* Light grey */
-    border-bottom: 3px solid #2e2e2e; /* Darker shade for contrast */
+    background-color: #333;
+    color: white;
+    border-bottom: 3px solid #444;
     margin-bottom: 20px;
 }
 
@@ -80,9 +85,9 @@ header p {
 footer {
     text-align: center;
     padding: 20px;
-    background-color: #4a4a4a; /* Dark grey */
-    color: #f0f0f0; /* Light grey */
-    border-top: 3px solid #2e2e2e; /* Darker shade for contrast */
+    background-color: #333;
+    color: white;
+    border-top: 3px solid #444;
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -91,3 +96,4 @@ footer {
 footer p {
     margin: 0;
 }
+
