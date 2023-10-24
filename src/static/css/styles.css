@@ -1,99 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
 
 body {
-    background: linear-gradient(120deg, #f4f4f4, #e0e0e0);
-    margin-top: 50px;
+    margin: 0;
     font-family: 'Roboto', sans-serif;
+    color: #fff;
+    overflow: hidden;
+    background-color: #000;
+    background-image: url('https://www.rennsport.gg/wp-content/uploads/2023/04/PS_Showroom2_992_S01.0004-2048x1152.png'); /* Replace with your background image */
+    background-size: cover; /* Ensure the background image covers the entire screen */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    transition: background-image 10s ease-in-out;
+}
+
+
+.header-container {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 2;
+}
+
+header {
+    text-align: center;
+    padding: 40px 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-bottom: 3px solid #d83f2f;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+
+header p {
+    margin: 5px 0 0;
+    font-size: 1.2rem;
+}
+
+.content-container {
+    padding: 80px 0;
+    text-align: center;
 }
 
 .title-container {
     text-align: center;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     margin: 20px auto;
 }
 
-.item {
-    background-color: white;
-    padding: 15px;
-    margin-bottom: 15px;
-    border: transparent;
-    border-radius: 5px;
-    box-shadow: 0 0 1em #ccc;
-    transition: all .2s ease-in-out;
-}
-
-.item:hover {
-    box-shadow: 0 0 1em #aaa;
-    transform: scale(1.02);
-}
-
-.item.completed {
-    text-decoration: line-through;
-    color: #888;
-    background-color: #f0f0f0;
-}
-
-.toggles {
-    color: black;
-}
-
-.name {
-    padding-top: 3px;
-}
-
-.remove {
-    padding-left: 0;
-}
-
-button {
-    transition: background-color .3s ease, color .3s ease, border .3s ease;
-}
-
-button:hover {
-    background-color: #333;
-    color: #fff;
-}
-
-button:focus {
-    border: 1px solid #333;
-    outline: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-/* New styles below */
-
-header {
-    text-align: center;
+#root {
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 20px;
-    background-color: #333;
-    color: white;
-    border-bottom: 3px solid #444;
-    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-header h1 {
-    margin: 0;
-}
-
-header p {
-    margin: 5px 0 0;
-    font-size: 1.1rem;
+.footer-container {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    z-index: 2;
 }
 
 footer {
     text-align: center;
-    padding: 20px;
-    background-color: #333;
-    color: white;
-    border-top: 3px solid #444;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    padding: 20px 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-top: 3px solid #d83f2f;
 }
 
 footer p {
     margin: 0;
 }
-
