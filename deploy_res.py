@@ -1,38 +1,147 @@
+from azure.identity import AzureCliCredential
+from azure.mgmt.resource import ResourceManagementClient
+from azure.mgmt.network import NetworkManagementClient
+from azure.mgmt.compute import ComputeManagementClient
+import os
 
-# Azure subscription ID
-subscription_id="26e71196-961d-4efa-ba31-3e88fb874482"
+print(f"Provisioning a virtual machine in Azure using Python.")
 
-# Resource group name
-resource_group_name="test"
+# Acquire credential object using CLI-based authentication.
+credential = AzureCliCredential()
 
-# Network interface parameters
-network_interface_name="cloudnetwork"
-network_interface_id="/subscriptions/$subscription_id/resourceGroups/$resource_group_name/providers/Microsoft.Network/networkInterfaces/cloudnetwork"
+# Retrieve subscription ID from environment variable.
+subscription_id = os.environ["AZURE_SUBSCRIPTION_ID"] = "26e71196-961d-4efa-ba31-3e88fb874482"
 
-# VM parameters
-vm_name="VMCloud"
-vm_size="Standard_D2_v3"
-vm_username="druss"
-vm_os_disk_name="myVMosdisk"
-vm_image_publisher="Canonical"
-vm_image_offer="UbuntuServer"
-vm_image_sku="16.04-LTS"
-vm_image_version="latest"
-vm_location="northeurope"
+# 1 - create a resource group
 
-# Public IP parameters
-public_ip_name="cloudcomputing"
-public_ip_location="northeurope"
+# Get the management object for resources, this uses the credentials from the CLI login.
+resource_client = ResourceManagementClient(credential, subscription_id)
 
-# Create Public IP
-az network public-ip create --resource-group "test" --name "cloudcomputing" --sku "Basic" --allocation-method "Static" --version "IPv4" --location "northeurope"
+# Set constants we need in multiple places.  You can change these values however you want.
+RESOURCE_GROUP_NAME = "python-azure-vm-example1"
+LOCATION = "westeurope"
 
-# Create Network Interface
-az network nic create --resource-group "test" --name "cloudnetwork" --location "northeurope" --subnet "/subscriptions/26e71196-961d-4efa-ba31-3e88fb874482/resourceGroups/test/providers/Microsoft.Network/virtualNetworks/VN1/subnets/mySubnet" --public-ip-address "cloudcomputing" --accelerated-networking true
+# create the resource group.
+rg_result = resource_client.resource_groups.create_or_update(RESOURCE_GROUP_NAME,
+    {
+        "location": LOCATION
+    }
+)
 
-# Create Virtual Machine
-az vm create --resource-group "test" --name "VMCloud" --image Canonical:UbuntuServer:16.04-LTS:latest --size "Standard_D2_v3" --location "northeurope" --admin-username "druss" --os-disk-name "myVMosdisk" --os-disk-size-gb 30 --nics "cloudnetwork" --ssh-key-value "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC6DiYv7FvXebyPu5qRsTomh8hgcyb6Cd/7+Ul51qzQ8GBfa4/4rxgCQCrM+S6MTObHqbhOkubzoWBBbC9YiDWseguXMlzYUEAQVYebwuZ1SIOZ/sYQmArZ52KVFUimqgkP+ymTA4jHhZRHr1tvqkF0fPgNeTXvu6Lt8i/7z4wku+mkXOg/yKkRcXYVk6NpcViyME0FrOsWvP+GVFydcZaOYhfP7CrbnWsM62TmB4rNlUFlnWmmTz/q/cuEAb3QBEkricCNZBVoln3bXirUZwyGCfgEvNEeW4waudRfYmVn9m7W4ClU+N4W8sxzNzjm5RVotlLaSc4xnU0pKx1jpvEmNiCigwouxvAjwJ1aXt9TztQk0QSq+hj8j0PZ1qfSTgK6jqCD8VSYbYLPl0Y+BGA2P3SclWDtLabEyx/FccqGvTe31I8MJEt5kIWr5rrC+ixYd+tZEjBdjuvOxSmMTO/bW4GAqT4nHoUhH3nbqh6rxq7Qlr8X5ALfav0aV0Gp1wY4fjYRxV2GARwmlV34htTHGEFonzWJJzgCS84wsRIhnkqR0wbzNCvCrJOVmxV+PbEaXDijMKG1oyu57rLbIHRaPGJ2UlmFndh49fvQkXY4xw3XA2IbZ5dn/BpH5X7lF36FAKny0sxz0puqEc4hxHKD5OHkbUcYuHoPliOs3/e+CQQ== druss@cloudcomputing"
-az vm jit-access set --resource-group "test" --name "VMCloud" --port 22 --protocol Tcp
-az vm jit-access request --resource-group "test" --name "VMCloud" --port 22 --protocol Tcp --ip-address 0.0.0.0/0
-az vm jit-access approve --resource-group "test" --name "VMCloud" --port 22 --protocol Tcp --id <Access_Request_ID>
+print(f"Provisioned resource group {rg_result.name} in the {rg_result.location} region")
 
+# 2 - provision the virtual network
+
+# A virtual machine requires a network interface client (NIC). A NIC requires a virtual network (VNET) and subnet along with an IP address.  
+# To support this requirement, we need to provision the VNET and Subnet first, then provision the NIC.
+
+# Network and IP address names
+VNET_NAME = "python-azure-vm-example-vnet"
+SUBNET_NAME = "python-azure-vm-example-subnet"
+IP_NAME = "python-azure-vm-example-ip"
+IP_CONFIG_NAME = "python-azure-vm-example-ip-config"
+NIC_NAME = "python-azure-vm-example-nic"
+
+# Get the management object for the network
+network_client = NetworkManagementClient(credential, subscription_id)
+
+# Create the virtual network
+poller = network_client.virtual_networks.begin_create_or_update(RESOURCE_GROUP_NAME,
+    VNET_NAME,
+    {
+        "location": LOCATION,
+        "address_space": {
+            "address_prefixes": ["10.0.0.0/16"]
+        }
+    }
+)
+
+vnet_result = poller.result()
+
+print(f"Provisioned virtual network {vnet_result.name} with address prefixes {vnet_result.address_space.address_prefixes}")
+
+# 3 - Create the subnet
+poller = network_client.subnets.begin_create_or_update(RESOURCE_GROUP_NAME,
+    VNET_NAME, SUBNET_NAME,
+    { "address_prefix": "10.0.0.0/24" }
+)
+subnet_result = poller.result()
+
+print(f"Provisioned virtual subnet {subnet_result.name} with address prefix {subnet_result.address_prefix}")
+
+# 4 - Create the IP address
+poller = network_client.public_ip_addresses.begin_create_or_update(RESOURCE_GROUP_NAME,
+    IP_NAME,
+    {
+        "location": LOCATION,
+        "sku": { "name": "Standard" },
+        "public_ip_allocation_method": "Static",
+        "public_ip_address_version" : "IPV4"
+    }
+)
+
+ip_address_result = poller.result()
+
+print(f"Provisioned public IP address {ip_address_result.name} with address {ip_address_result.ip_address}")
+
+# 5 - Create the network interface client
+poller = network_client.network_interfaces.begin_create_or_update(RESOURCE_GROUP_NAME,
+    NIC_NAME,
+    {
+        "location": LOCATION,
+        "ip_configurations": [ {
+            "name": IP_CONFIG_NAME,
+            "subnet": { "id": subnet_result.id },
+            "public_ip_address": {"id": ip_address_result.id }
+        }]
+    }
+)
+
+nic_result = poller.result()
+
+print(f"Provisioned network interface client {nic_result.name}")
+
+# 6 - Create the virtual machine
+
+# Get the management object for virtual machines
+compute_client = ComputeManagementClient(credential, subscription_id)
+
+VM_NAME = "PythonAzureVM"
+USERNAME = "pythonazureuser"
+PASSWORD = "LetMeIn123"
+
+print(f"Provisioning virtual machine {VM_NAME}; this operation might take a few minutes.")
+
+# Create the VM (Ubuntu 18.04 VM)
+# on a Standard DS1 v2 plan with a public IP address and a default virtual network/subnet.
+
+poller = compute_client.virtual_machines.begin_create_or_update(RESOURCE_GROUP_NAME, VM_NAME,
+    {
+        "location": LOCATION,
+        "storage_profile": {
+            "image_reference": {
+                "publisher": 'Canonical',
+                "offer": "UbuntuServer",
+                "sku": "16.04.0-LTS",
+                "version": "latest"
+            }
+        },
+        "hardware_profile": {
+            "vm_size": "Standard_DS1_v2"
+        },
+        "os_profile": {
+            "computer_name": VM_NAME,
+            "admin_username": USERNAME,
+            "admin_password": PASSWORD
+        },
+        "network_profile": {
+            "network_interfaces": [{
+                "id": nic_result.id,
+            }]
+        }
+    }
+)
+
+vm_result = poller.result()
+
+print(f"Provisioned virtual machine {vm_result.name}")
