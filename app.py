@@ -55,7 +55,7 @@ def read_all():
     cur.execute("SELECT * FROM students")
     rv = cur.fetchall()
     results = [{'Name': row[0], 'Email': row[1], 'ID': row[2]} for row in rv]
-    return jsonify({'Results': results, 'count': len(results)})
+    return render_template('index.html', Results=results, count=len(results))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)
