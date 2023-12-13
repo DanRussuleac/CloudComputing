@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .remove-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .add-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Information</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>ID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in Results %}
+                <tr>
+                    <td>{{ student.Name }}</td>
+                    <td>{{ student.Email }}</td>
+                    <td>{{ student.ID }}</td>
+                    <td><button class="remove-button" onclick="removeStudent({{ student.ID }})">Remove</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Total Students: {{ count }}</p>
+    
+    <button class="add-button" onclick="addStudent()">Add Student</button>
+
+    <script>
+    function removeStudent(studentID) {
+        // Confirm before removing the student
+        var confirmRemove = confirm("Are you sure you want to remove this student?");
+        
+        if (confirmRemove) {
+            // Make an AJAX request to the Flask route for removing a student
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/remove/" + studentID, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Reload the page after successful removal
+                    location.reload();
+                }
+            };
+            xhr.send();
+        }
+    }
+    function addStudent() {
+        // Prompt for new student details
+        var name = prompt("Enter the student's name:");
+        var email = prompt("Enter the student's email:");
+
+        // Make an AJAX request to the Flask route for adding a student
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/add", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Reload the page after successful addition
+                location.reload();
+            }
+        };
+        xhr.send("name=" + name + "&email=" + email);
+    }
+    </script>
+</body>
+</html>
