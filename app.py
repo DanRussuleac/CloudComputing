@@ -1,9 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
 import json
 
-app = Flask(__name__)
+app = Flask(_name_)
 CORS(app)
 
 # MySQL configurations
@@ -49,6 +49,13 @@ def read_one(id):
     else:
         return jsonify({'message': 'Student not found'})
 
+@app.route("/remove/<int:id>", methods=['GET'])
+def remove(id):
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM students WHERE studentID=%s", [id])
+    mysql.connection.commit()
+    return jsonify({'result': 'deleted'})
+
 @app.route("/", methods=['GET'])
 def read_all():
     cur = mysql.connection.cursor()
@@ -57,5 +64,5 @@ def read_all():
     results = [{'Name': row[0], 'Email': row[1], 'ID': row[2]} for row in rv]
     return render_template('index.html', Results=results, count=len(results))
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     app.run(host='0.0.0.0', port=8080)
