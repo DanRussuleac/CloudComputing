@@ -64,5 +64,5 @@ def read_all():
     results = [{'Name': row[0], 'Email': row[1], 'ID': row[2]} for row in rv]
     return render_template('index.html', Results=results, count=len(results))
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)
